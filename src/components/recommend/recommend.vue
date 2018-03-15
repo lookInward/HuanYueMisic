@@ -1,32 +1,39 @@
 <template>
-  <div>
-      <div class="recommend" ref="recommend">
+  <div class="padding">
+      <div class="recommend" ref="recommend" id="recommend">
         <!-- 轮播图 -->
-        <div class="slider">
-           <el-carousel :interval="3000" arrow="always">
+        <div class="slider hidden">
+           <el-carousel :interval="3000" arrow="always" class="sliderimg">
             <el-carousel-item v-for="item in recommends" :key="item">
-        <a :href="item.linkUrl">
-      <img class="needsclick"  :src="item.picUrl">
-        </a>
+      <img class="needsclick"  v-lazy="item.picUrl">
     </el-carousel-item>
   </el-carousel>
         </div>
+        <div class="mslider">
+ <mt-swipe :auto="4000">
+  <mt-swipe-item  v-for="item in recommends" :key="item">
+    <img class="needsclick"  v-lazy="item.picUrl">
+    </mt-swipe-item >
+</mt-swipe>
+        </div>
         <!-- 推荐歌单 -->
         <div class="recommend-list">
-          <p class="list-title">推荐歌曲</p>
+          <p class="list-title">酷猫推荐</p>
           <ul>
             <el-row :gutter="10">
-            <li @click="selectItem(item)" v-for="item in recommendList" class="item">
+            <li v-for="item in recommendList" :key="item" @click="setDesc(item)" >
+              <router-link tag="a" :to="{ name: 'ListDesc', params: { id: item.dissid}}">
               <el-col  :xs="8" :sm="4" :md="4" :lg="4" :xl="4" ><div class="grid-content bg-purple">
                  <div class="icon"> 
-                  <img :src="item.imgurl">
+                  <img v-lazy="item.imgurl">
                   <div class="text">
                 <span class="name" v-html="item.creator.name"></span>
                 <p class="desc" v-html="item.dissname"></p>
               </div>
              </div>
                 </div>
-                </el-col>          
+                </el-col>    
+              </router-link>      
             </li>
             </el-row>
           </ul>
@@ -38,6 +45,7 @@
  import jsonp from "../../common/js/jsonp";
  import{mapMutations} from 'vuex';
  import {ERR_OK,commonParams,url,data,options,commonParamsList,urlList} from '../../api/config.js';
+
 export default {
   data(){
     return {
@@ -59,14 +67,11 @@ export default {
     })
   },
   methods:{
-    selectItem(item){
-      this.$router.push({
-        path:`/recommend/${item.dissid}`
-      })
-      this.setDisc(item);
+    setDesc(item){
+      this.setDesc(item);
     },
     ...mapMutations({
-      setDisc:'SET_DISC'
+      setDesc:'SET_DESC'
     })
   }
 }
@@ -86,6 +91,16 @@ recommend{
   width:100%; 
   min-width:768px; 
 }
+.mslider{
+  display:none;
+  width: 100%;
+  height: 150px;
+  img{
+    width:100%;
+    height: 100%;
+  }
+}
+
 .slider{
   margin:0 auto;
   max-width: 720px;
@@ -144,13 +159,6 @@ span.name{
      font-size: 18px;
    }
   
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
-  
-  .el-carousel__item:nth-child(2n+1) {
-    background-color: #d3dce6;
-  }
 
 
 
@@ -162,15 +170,6 @@ span.name{
   }
   .el-col {
     border-radius: 4px;
-  }
-  .bg-purple-dark {
-    background: #E8E5E5;
-  }
-  .bg-purple {
-    background: #E8E5E5;
-  }
-  .bg-purple-light {
-    background: #E8E5E5;
   }
   .grid-content {
     border-radius: 4px;
@@ -190,6 +189,32 @@ span.name{
                 transform:rotateZ(360deg);
             }
         }
+
+  @media screen and (max-width: 750px) {
+  @import '../../common/less/padding.less';
+    .hidden{
+      display: none;
+    }
+    .mslider{
+      display:block;
+    }
+    #recommend{
+      p.list-title{
+        font-size:13px;
+        color:rgb(214, 147, 147);
+      }
+    span.name{
+     color:rgb(214, 147, 147);
+     font-family: 'Courier New', Courier, monospace;
+     font-size: 15px;
+   }
+  p.desc{
+     color:rgb(214, 147, 147);
+     font-family: 'Courier New', Courier, monospace;
+     font-size: 8px;
+   }
+    }
+}
 </style>
 
 

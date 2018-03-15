@@ -1,19 +1,17 @@
 export const ERR_OK=0;
 /**轮播图 */
 export const commonParams={
-    g_tk:5381,
-    uin:0,
-    format:'json',
-    inCharset:'utf-8',
-    outCharset:'utf-8',
-    notice:0,
-    platform:'h5',
-    needNewCode:1,
-    _:'1516435865973'
+  g_tk: 67232076,
+  inCharset: 'utf-8',
+  outCharset: 'utf-8',
+  notice: 0,
+  format: 'jsonp'
     };
  export   const url='https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg';
  export   const data=commonParams;
- export   const options = {param: 'jsonpCallback'};
+ export   const options = {
+    param: 'jsonpCallback'
+  }
 /**推荐歌单 */
 export const commonParamsList=Object.assign(commonParams,{
     platform: 'yqq',
@@ -28,7 +26,7 @@ export const commonParamsList=Object.assign(commonParams,{
 });
 export const urlList='/api/getDiscList';
 /**歌手表单 */
-const singerData = Object.assign({}, commonParams, {
+export const singerData = Object.assign({}, commonParams, {
     channel: 'singer',
     page: 'list',
     key: 'all_all_all',
@@ -38,6 +36,7 @@ const singerData = Object.assign({}, commonParams, {
     needNewCode: 0,
     platform: 'yqq'
   });
-  const songerUrl = 'https://c.y.qq.com/v8/fcg-bin/v8.fcg';
+export  const songerUrl = 'https://c.y.qq.com/v8/fcg-bin/v8.fcg';
+
 
 

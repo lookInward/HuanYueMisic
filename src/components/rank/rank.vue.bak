@@ -1,0 +1,86 @@
+<template>
+  <div>
+    {{topList}}
+       <!-- <div class="recommend-list">
+          <p class="list-title">酷猫推荐</p>
+          <ul>
+            <el-row :gutter="10">
+            <li class="item" v-for="item in topList">
+              <el-col  :xs="8" :sm="4" :md="4" :lg="4" :xl="4" ><div class="grid-content bg-purple">
+                 <div class="icon"> 
+                  <img width="100" height="100" :src="item.picUrl"/>
+                  <div class="text"> -->
+                <!-- <span class="name" v-html="item.pic_v12.ListName"></span> -->
+              <!-- </div>
+             </div>
+                </div>
+                </el-col>          
+            </li>
+            </el-row>
+          </ul>
+        </div> -->
+  </div>
+</template>
+<script>
+import {getTopList} from '../../api/rank.js'
+import {ERR_OK} from '../../api/config.js'
+
+export default {
+    data(){
+    return{
+    topList:[]
+    }
+  },
+  created(){
+    // this._getTopList();
+    getTopList();
+  },
+  methods:{
+    // _getTopList(){
+      // console.log(getTopList())
+    // }
+    // _getTopList(){
+    //   getTopList().then(res=>{
+    //     if(res.data.code===ERR_OK){
+    //       this.topList=res;
+    //     }
+    //     console.log('123456');
+    //     console.log(res.data.topList);
+    //     console.log(res);
+    //   })
+    // }
+  }
+}
+</script>
+<style lang="less" rel="stylesheet/less" scoped>
+.el-row {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #E8E5E5;
+  }
+  .bg-purple {
+    background: #E8E5E5;
+  }
+  .bg-purple-light {
+    background: #E8E5E5;
+  }
+  .grid-content {
+    border-radius: 4px;
+    width:100%;
+    min-height: 36px;
+  }
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+  }
+ 
+</style>
+
+

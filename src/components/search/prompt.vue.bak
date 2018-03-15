@@ -1,0 +1,78 @@
+<template>
+  <div>
+      <ul class="list">
+          {{query}}
+          {{result}}
+          <li v-for="item in result">
+              {{item}}
+              <div class="name">
+                  <p class="text" v-html="getDisplayName(item)"></p>
+              </div>
+          </li>
+      </ul>
+  </div>
+</template>
+<script>
+  import {search} from '../../api/search'
+  import {ERR_OK} from '../../api/config'
+  import {filterSinger} from '../../common/js/song';
+
+  const TYPE_SINGER='singer'
+export default {
+  props: {
+      showSinger: {
+        type: Boolean,
+        default: true
+      },
+      query: {
+        type: String,
+        default: ''
+      }
+    },
+    data() {
+      return {
+        page: 1,
+        result: []
+      }
+    },
+  methods:{
+      search(){
+          search(this.query,this.page,this.showSinger)
+          .then(res=>{
+              if(res.code===ERR_OK){
+                  this.result=this._genResult(res.data);
+                  console.log(res);
+              }
+          }).catch(()=>console.log(error))
+      },
+      _genResult(data) {
+        let ret = []
+        if(data.zhida&&data.zhida.singerid){
+          ret.push({...data.zhida,...{type:TYPE_SINGER}})
+        }
+        if (data.song) {
+          ret = ret.concat(data.song.list)
+        }
+        return ret
+      },
+      getDisplayName(item){
+          if (item.type === TYPE_SINGER) {
+          return item.singername
+        } else {
+          return `${item.songname}-${filterSinger(item.singer)}`
+        }
+      }
+  },
+  watch:{
+      query(){
+          this.search()
+      }
+  }
+}
+</script>
+<style lang="less" rel="stylesheet/less" scoped>
+.list{
+    height: 200px;
+}
+</style>
+

@@ -1,6 +1,5 @@
 /*对引入的jsonp做一个封装，利用到promise */
 import originJsonp from 'jsonp'
-import { resolve } from 'url';
 
 export default function jsonp(url,data,option){
     url+=(url.indexOf('?')<0?'?':'&')+param(data);
